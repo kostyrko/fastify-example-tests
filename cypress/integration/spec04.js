@@ -7,6 +7,16 @@ it('clearly shows the loading element', () => {
   //
   // visit the page
   // https://on.cypress.io/visit
+  cy.clock()
+  const fruit = "Kiwi"
+  cy.intercept('/fruit', {body : {fruit: fruit}, delay: 2000,}).as('fruitGet')
+  cy.visit('/')
+  cy.get('#fruit')
+    .should('be.visible')
+    .and('have.text', 'loading...')
+  cy.get('#fruit').should('not.contain', 'loading')
+  cy.contains('#fruit', fruit).should('be.visible')
+
   //
   // check if the loading element is visible
   // and then does not exist

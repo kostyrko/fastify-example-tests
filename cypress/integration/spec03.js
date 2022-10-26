@@ -6,6 +6,12 @@ it('shows the fruit returned from the test', () => {
   // return "Kiwi" json object
   // tip: use https://on.cypress.io/intercept
   //
+  const fruit = "Kiwi"
+  cy.intercept('/fruit', {body : {fruit: fruit}}).as('fruitGet')
+  cy.visit('/')
+  cy.wait('@fruitGet')
+  cy.contains('#fruit', fruit)
+
   // visit the page
   // https://on.cypress.io/visit
   //

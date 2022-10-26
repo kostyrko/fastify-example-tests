@@ -7,7 +7,8 @@
   "scripts": {
     "test": "cypress run",
     "format": "prettier --write '**/*.{js,json,md}'",
-    "print": "find-cypress-specs --names"
+    "print": "find-cypress-specs --names",
+    "cy:open": "cypress open"
   },
   "keywords": [
     "cypress-examples"
