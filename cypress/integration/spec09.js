@@ -10,4 +10,27 @@ it('returns different fruits', () => {
   // confirm it shows "apple"
   // reload the site
   // confirm it shows "grapes"
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/fruit',
+      times: 1,
+    },
+    { fruit: 'grapes' },
+  )
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/fruit',
+      times: 1,
+    },
+    { fruit: 'apple' },
+  )
+  cy.visit('/')
+  cy.get('#fruit')
+    .should('include.text', 'apple')
+  cy.reload()
+  cy.get('#fruit')
+    .should('include.text', 'grapes')
+  
 })

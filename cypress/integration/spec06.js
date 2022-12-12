@@ -3,14 +3,19 @@
 it('shows the loading element then fruit from a fixture', () => {
   // intercept the GET call to /fruit with fixture "apple.json"
   // https://on.cypress.io/intercept
-  //
+  cy.intercept('GET', '/fruit', { fixture: 'apple.json' })
+  const fruit = "apple"
   // visit the site
   // https://on.cypress.io/visit
-  //
-  // confirm the "loading..." text is shown
-  // confirm the "apple" text is shown
-  // https://on.cypress.io/contains
-  //
-  // confirm there is no element with the text "loading..."
-  // https://on.cypress.io/should
+  cy.visit('/')
+  cy.get('#fruit')
+    .should('include.text', 'loading...')
+
+  cy.get('#fruit')
+    .should('include.text', fruit)
+
+
+  cy.contains('#fruit', 'loading...').should('not.exist')
+
+  
 })
