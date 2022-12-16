@@ -10,7 +10,7 @@ it('requests all fruits', () => {
   // print the collected list of fruits
   const fruits = new Set()
   function getTheFruit() {
-    cy.request('/fruits').then(response => {
+    cy.request('/fruits')
       its('body.fruit')
       .then(fruits => {
         if (fruit.has(fruit)) {
@@ -20,7 +20,6 @@ it('requests all fruits', () => {
           cy.wait(1000).then(getTheFruit)
         }
       })
-    })
   }
   getTheFruit()
 })
