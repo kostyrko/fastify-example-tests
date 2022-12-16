@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { recurse } from 'cypress-recurse'
 
 it('finds all fruits', () => {
   // visit the page
@@ -8,6 +9,25 @@ it('finds all fruits', () => {
   // until we see the fruit we have already added
   // print the collected list of fruits
   // check its length against the expected value
+  const fruits = new Set();
+  cy.visit('/');
+  function checkFruit() {
+    cy.get('#fruit')
+      .should('not.have.text', 'loading...')
+      .invoke('text')
+      .then((fruit) => {
+        if (fruits.has(fruit)) {
+          cy.log('Has a fruit: '+ fruit)
+        } else {
+          fruits.add(fruit)
+          cy.wait(500)
+          // calling the function
+          cy.log('adding a fruit: '+ fruit)
+          cy.reload().then(checkFruit)
+        }
+      })
+  }
+  checkFruit()
 })
 
 // Bonus 2: use cypress-recurse to find all fruits
@@ -16,7 +36,7 @@ it('finds all fruits', () => {
 // npm i -D cypress-recurse
 // and import or require it in this spec file
 // import { recurse } from 'cypress-recurse'
-it('finds all the fruit using cypress-recurse', () => {
+it.only('finds all the fruit using cypress-recurse', () => {
   // let's use the "recurse" function to reload the page
   // until we see a repeated fruit. Then we can stop
   // since we have seen all the fruits.
@@ -43,4 +63,5 @@ it('finds all the fruit using cypress-recurse', () => {
   //
   // print the collected list of fruits
   // check its length against the expected value
+
 })
